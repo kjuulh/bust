@@ -10,7 +10,8 @@ import (
 
 func Build() *cobra.Command {
 	var (
-		imageTag string
+		imageTag   string
+		mainGoPath string
 	)
 
 	cmd := &cobra.Command{
@@ -30,12 +31,14 @@ func Build() *cobra.Command {
 			}
 			defer client.CleanUp()
 
-			return tasks.Build(client, imageTag, "main.go")
+			return tasks.Build(client, imageTag, mainGoPath)
 		},
 	}
 
 	cmd.PersistentFlags().StringVar(&imageTag, "image-tag", "", "the url for which to tag the docker image, defaults to private url, with repo as image name")
 	cmd.MarkPersistentFlagRequired("image-tag")
+
+	cmd.PersistentFlags().StringVar(&mainGoPath, "main-path", "main.go", "main.go path")
 
 	return cmd
 }
