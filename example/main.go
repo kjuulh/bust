@@ -23,5 +23,5 @@ func run(ctx context.Context) error {
 	}
 	defer builder.CleanUp()
 
-	return tasks.Build(builder, "some-image")
+	return tasks.Build(builder, "some-image", "example/main.go")
 }

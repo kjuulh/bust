@@ -3,7 +3,6 @@ package tasks
 import (
 	"context"
 	"log"
-	"os"
 
 	"dagger.io/dagger"
 	"git.front.kjuulh.io/kjuulh/byg"
