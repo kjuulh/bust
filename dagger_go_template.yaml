@@ -17,8 +17,8 @@ steps:
       - apk add git
       - mkdir -p tmp/dagger-go
       - git clone "https://git.front.kjuulh.io/kjuulh/dagger-go.git" /mnt/dagger-go
-      - docker build -t dagger-go-builder:${DRONE_COMMIT} -f mnt/dagger-go/Dockerfile .
-      - 'docker run -v "$PWD/:/src" -v /var/run/docker.sock:/var/run/docker.sock dagger-go-builder:${DRONE_COMMIT} dagger-go build --image-tag "{{ or .input.imageTag $imageTag }}"'
+      - docker build -t dagger-go-builder:${DRONE_COMMIT} -f tmp/dagger-go/Dockerfile .
+      - 'docker run -v "$PWD/:/src/" -v /var/run/docker.sock:/var/run/docker.sock dagger-go-builder:${DRONE_COMMIT} dagger-go build --image-tag "{{ or .input.imageTag $imageTag }}"'
 
 services:
   - name: docker
