@@ -32,7 +32,7 @@ func Build(builder *internal.Builder, imageTag string) error {
 					}
 
 					log.Println("listing files in /src/")
-					dir, err = os.ReadDir("/src/")
+					dir, err := os.ReadDir("/src/")
 					if err == nil {
 						for _, d := range dir {
 							log.Printf("content: %s\n", d.Name())
