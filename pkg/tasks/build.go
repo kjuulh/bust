@@ -31,24 +31,6 @@ func Build(builder *internal.Builder, imageTag string) error {
 						return err
 					}
 
-					log.Println("listing files in /src/build")
-					dir, err := os.ReadDir("/src/build")
-					if err == nil {
-						for _, d := range dir {
-							log.Printf("content: %s\n", d.Name())
-						}
-					} else {
-						return err
-					}
-
-					log.Println("listing files in /src/docker")
-					dir, err = os.ReadDir("/src/docker")
-					if err == nil {
-						for _, d := range dir {
-							log.Printf("content: %s\n", d.Name())
-						}
-					}
-
 					log.Println("listing files in /src/")
 					dir, err = os.ReadDir("/src/")
 					if err == nil {
@@ -58,7 +40,7 @@ func Build(builder *internal.Builder, imageTag string) error {
 					}
 
 					golang := client.Container().From("golang:latest")
-					golang = golang.WithMountedDirectory("/src/build", src).WithWorkdir("/src")
+					golang = golang.WithMountedDirectory("/src", src).WithWorkdir("/src")
 					_, err = golang.Exec(dagger.ContainerExecOpts{
 						Args: []string{"go", "build", "-o", "build/"},
 					}).ExitCode(ctx)

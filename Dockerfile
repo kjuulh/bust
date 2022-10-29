@@ -8,7 +8,7 @@ RUN go build -o dist/dagger-go main.go
 
 FROM harbor.front.kjuulh.io/docker-proxy/library/docker:dind
 
-WORKDIR /src/docker
+WORKDIR /src
 
 COPY --from=builder /src/builder/dist/dagger-go /usr/bin/
 
