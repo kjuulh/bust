@@ -2,7 +2,7 @@ FROM harbor.front.kjuulh.io/docker-proxy/library/golang:alpine as builder
 
 WORKDIR /src/builder
 
-COPY . .
+COPY ci/. .
 
 RUN go build -o dist/dagger-go main.go
 
