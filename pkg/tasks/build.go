@@ -3,6 +3,7 @@ package tasks
 import (
 	"context"
 	"log"
+	"os"
 
 	"dagger.io/dagger"
 	"git.front.kjuulh.io/kjuulh/byg"
@@ -30,8 +31,24 @@ func Build(builder *internal.Builder, imageTag string) error {
 						return err
 					}
 
+					log.Println("listing files in /src/build")
+					dir, _ := os.ReadDir("/src/build")
+					if err == nil {
+						for _, d := range dir {
+							log.Printf("content: %s\n", d.Name())
+						}
+					}
+
+					log.Println("listing files in /src/docker")
+					dir, _ == os.ReadDir("/src/docker")
+					if err == nil {
+						for _, d := range dir {
+							log.Printf("content: %s\n", d.Name())
+						}
+					}
+
 					golang := client.Container().From("golang:latest")
-					golang = golang.WithMountedDirectory("/src", src).WithWorkdir("/src")
+					golang = golang.WithMountedDirectory("/src/build", src).WithWorkdir("/src")
 					_, err = golang.Exec(dagger.ContainerExecOpts{
 						Args: []string{"go", "build", "-o", "build/"},
 					}).ExitCode(ctx)
