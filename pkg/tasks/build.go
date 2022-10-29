@@ -30,7 +30,7 @@ func Build(builder *internal.Builder, imageTag string, buildPath string) error {
 						return err
 					}
 
-					golang := client.Container().From("golang:latest")
+					golang := client.Container().From("harbor.front.kjuulh.io/docker-proxy/library/golang:alpine")
 					golang = golang.WithMountedDirectory("/src", src).WithWorkdir("/src")
 					_, err = golang.Exec(dagger.ContainerExecOpts{
 						Args: []string{"go", "build", "-o", "build/", buildPath},
