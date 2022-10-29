@@ -1,0 +1,28 @@
+type: docker
+kind: pipeline
+name: "drone-dagger-test"
+
+steps:
+  - name: "build"
+    image: harbor.front.kjuulh.io/docker-proxy/library/docker:dind
+    volumes:
+      - name: dockersock
+        path: /var/run
+    environment:
+      DOCKER_BUILDKIT: 1
+    commands:
+      - "sleep 5"
+      - docker build -t dagger-go-builder:${DRONE_COMMIT} .
+      - "docker run -v /var/run/docker.sock:/var/run/docker.sock dagger-go-builder:${DRONE_COMMIT} ./dagger-go production"
+
+services:
+  - name: docker
+    image: docker:dind
+    privileged: true
+    volumes:
+      - name: dockersock
+        path: /var/run
+
+volumes:
+  - name: dockersock
+    temp: {}
