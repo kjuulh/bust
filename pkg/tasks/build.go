@@ -10,7 +10,7 @@ import (
 	"git.front.kjuulh.io/kjuulh/dagger-go/internal"
 )
 
-func Build(builder *internal.Builder, imageTag string) error {
+func Build(builder *internal.Builder, imageTag string, buildPath string) error {
 	log.Printf("building image: %s", imageTag)
 
 	client := builder.Dagger
@@ -31,18 +31,10 @@ func Build(builder *internal.Builder, imageTag string) error {
 						return err
 					}
 
-					log.Println("listing files in /src/")
-					dir, err := os.ReadDir("/src/")
-					if err == nil {
-						for _, d := range dir {
-							log.Printf("content: %s\n", d.Name())
-						}
-					}
-
 					golang := client.Container().From("golang:latest")
 					golang = golang.WithMountedDirectory("/src", src).WithWorkdir("/src")
 					_, err = golang.Exec(dagger.ContainerExecOpts{
-						Args: []string{"go", "build", "-o", "build/"},
+						Args: []string{"go", "build", "-o", "build/", buildPath},
 					}).ExitCode(ctx)
 
 					return err
