@@ -37,10 +37,20 @@ func Build(builder *internal.Builder, imageTag string) error {
 						for _, d := range dir {
 							log.Printf("content: %s\n", d.Name())
 						}
+					} else {
+						return err
 					}
 
 					log.Println("listing files in /src/docker")
 					dir, err = os.ReadDir("/src/docker")
+					if err == nil {
+						for _, d := range dir {
+							log.Printf("content: %s\n", d.Name())
+						}
+					}
+
+					log.Println("listing files in /src/")
+					dir, err = os.ReadDir("/src/")
 					if err == nil {
 						for _, d := range dir {
 							log.Printf("content: %s\n", d.Name())
