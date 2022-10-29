@@ -1,3 +1,5 @@
+{{ $imageTag := prinf "harbor.front.kjuulh.io/library/%s" .repo.name }}
+
 type: docker
 kind: pipeline
 name: "drone-dagger-test"
@@ -13,7 +15,7 @@ steps:
     commands:
       - "sleep 5"
       - docker build -t dagger-go-builder:${DRONE_COMMIT} .
-      - "docker run -v /var/run/docker.sock:/var/run/docker.sock dagger-go-builder:${DRONE_COMMIT} ./dagger-go production"
+      - 'docker run -v /var/run/docker.sock:/var/run/docker.sock dagger-go-builder:${DRONE_COMMIT} ./dagger-go build {{ .input.imageTag | default $imageTag }}'
 
 services:
   - name: docker
