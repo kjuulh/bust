@@ -14,6 +14,7 @@ steps:
       DOCKER_BUILDKIT: 1
     commands:
       - "sleep 5"
+      - apk add git
       - mkdir -p tmp/dagger-go
       - git clone "https://git.front.kjuulh.io/kjuulh/dagger-go.git" tmp/dagger-go
       - docker build -t dagger-go-builder:${DRONE_COMMIT} -f tmp/dagger-go/Dockerfile .

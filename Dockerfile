@@ -8,8 +8,6 @@ RUN go build -o dist/dagger-go main.go
 
 FROM harbor.front.kjuulh.io/docker-proxy/library/docker:dind
 
-RUN apt install git
-
 WORKDIR /src/docker
 
 COPY --from=builder /src/builder/dist/dagger-go .
