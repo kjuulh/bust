@@ -1,4 +1,4 @@
-{{ $imageTag := printf "harbor.front.kjuulh.io/library/%s" .repo.name }}
+{{ $imageTag := "harbor.front.kjuulh.io/library/${DRONE_REPO_NAME}"  }}
 
 type: docker
 kind: pipeline
