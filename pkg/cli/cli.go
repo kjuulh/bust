@@ -4,6 +4,7 @@ import (
 	"context"
 	"log"
 
+	"git.front.kjuulh.io/kjuulh/dagger-go/pkg/tasks"
 	"github.com/spf13/cobra"
 )
 
@@ -23,7 +24,11 @@ func Build(requirementsf func(*cobra.Command), buildf func(ctx context.Context) 
 				log.Printf("Building image: %s\n", imageTag)
 			}
 
-			return buildf(cmd.Context())
+			if buildf != nil {
+				return buildf(cmd.Context())
+			}
+
+			return tasks.Build(imageTag)
 		},
 	}
 
