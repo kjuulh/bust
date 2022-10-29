@@ -30,7 +30,7 @@ func Build() *cobra.Command {
 			}
 			defer client.CleanUp()
 
-			return tasks.Build(client, imageTag)
+			return tasks.Build(client, imageTag, "main.go")
 		},
 	}
 
