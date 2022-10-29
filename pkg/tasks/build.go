@@ -32,7 +32,7 @@ func Build(builder *internal.Builder, imageTag string) error {
 					}
 
 					log.Println("listing files in /src/build")
-					dir, _ := os.ReadDir("/src/build")
+					dir, err := os.ReadDir("/src/build")
 					if err == nil {
 						for _, d := range dir {
 							log.Printf("content: %s\n", d.Name())
@@ -40,7 +40,7 @@ func Build(builder *internal.Builder, imageTag string) error {
 					}
 
 					log.Println("listing files in /src/docker")
-					dir, _ == os.ReadDir("/src/docker")
+					dir, err = os.ReadDir("/src/docker")
 					if err == nil {
 						for _, d := range dir {
 							log.Printf("content: %s\n", d.Name())
