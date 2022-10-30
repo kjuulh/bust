@@ -7,7 +7,7 @@ import (
 	"os"
 
 	"git.front.kjuulh.io/kjuulh/dagger-go/internal"
-	"git.front.kjuulh.io/kjuulh/dagger-go/pkg/tasks"
+	"git.front.kjuulh.io/kjuulh/dagger-go/pkg/pipelines"
 	"github.com/spf13/cobra"
 )
 
@@ -31,13 +31,23 @@ func Build(mainGoPath string, imageTag string) *cobra.Command {
 
 			log.Printf("Building image: %s\n", imageTag)
 
-			client, err := internal.New(ctx)
+			builder, err := internal.New(ctx)
 			if err != nil {
 				return err
 			}
-			defer client.CleanUp()
+			defer builder.CleanUp()
 
-			return tasks.Build(client, imageTag, mainGoPath)
+			return pipelines.
+				New(builder).
+				WithGolangBin(&pipelines.GolangBinOpts{
+					DockerImageOpt: &pipelines.DockerImageOpt{
+						ImageName: "golang-bin",
+					},
+					BuildPath: "example/golang-bin/main.go",
+					BinName:   "golang-bin",
+				}).
+				Execute(ctx)
+
 		},
 	}
 

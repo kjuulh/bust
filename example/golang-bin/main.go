@@ -5,7 +5,7 @@ import (
 	"log"
 
 	"git.front.kjuulh.io/kjuulh/dagger-go/internal"
-	"git.front.kjuulh.io/kjuulh/dagger-go/pkg/tasks"
+	"git.front.kjuulh.io/kjuulh/dagger-go/pkg/pipelines"
 )
 
 func main() {
@@ -15,7 +15,6 @@ func main() {
 		log.Fatal(err)
 	}
 }
-
 func run(ctx context.Context) error {
 	builder, err := internal.New(ctx)
 	if err != nil {
@@ -23,5 +22,14 @@ func run(ctx context.Context) error {
 	}
 	defer builder.CleanUp()
 
-	return tasks.Build(builder, "some-image", "example/main.go")
+	return pipelines.
+		New(builder).
+		WithGolangBin(&pipelines.GolangBinOpts{
+			DockerImageOpt: &pipelines.DockerImageOpt{
+				ImageName: "golang-bin",
+			},
+			BuildPath: "example/golang-bin/main.go",
+			BinName:   "golang-bin",
+		}).
+		Execute(ctx)
 }

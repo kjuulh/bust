@@ -8,7 +8,7 @@ require (
 )
 
 require (
-	git.front.kjuulh.io/kjuulh/byg v0.0.1 // indirect
+	git.front.kjuulh.io/kjuulh/byg v0.0.7 // indirect
 	github.com/Khan/genqlient v0.5.0 // indirect
 	github.com/Microsoft/go-winio v0.5.2 // indirect
 	github.com/agext/levenshtein v1.2.3 // indirect
