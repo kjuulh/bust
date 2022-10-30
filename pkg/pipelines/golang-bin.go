@@ -82,12 +82,12 @@ func (p *Pipeline) WithGolangBin(opts *GolangBinOpts) *Pipeline {
 			byg.Step{
 				Execute: func(ctx byg.Context) error {
 					tempmount := fmt.Sprintf("/tmp/%s", opts.BinName)
-					usrbin := fmt.Sprintf("/usr/bin/%s", opts.BinName)
+					usrbin := fmt.Sprintf("/bin/%s", opts.BinName)
 					c := container.MountFileFromLoaded(scratch, bin, tempmount)
 					c = c.Exec(dagger.ContainerExecOpts{
-						Args: []string{"mkdir", "-p", "/usr/bin", "&&", "cp", tempmount, usrbin},
+						Args: []string{"cp", tempmount, usrbin},
 					})
-					finalImage = c.WithEntrypoint([]string{opts.BinName})
+					finalImage = c.WithEntrypoint([]string{usrbin})
 
 					return nil
 				},

@@ -41,6 +41,8 @@ git.front.kjuulh.io/kjuulh/dagger-go v0.0.8 h1:hbXEOYw3Q3sdwMjaEMz+v/TOnyUWSDAYF
 git.front.kjuulh.io/kjuulh/dagger-go v0.0.8/go.mod h1:N/EXT0aOJzph/9AXuFlaA2ZuKU0P8WzaDZQXLlAL0D8=
 git.front.kjuulh.io/kjuulh/dagger-go v0.0.9 h1:XxKhvUM8q7QcRSTeE7hF56zoXKGOncdHBdccKBKnS6M=
 git.front.kjuulh.io/kjuulh/dagger-go v0.0.9/go.mod h1:N/EXT0aOJzph/9AXuFlaA2ZuKU0P8WzaDZQXLlAL0D8=
+git.front.kjuulh.io/kjuulh/dagger-go v0.0.10 h1:d9VNhI6OsiR/W4/1iJvchuHwTq2C3AHw3yetncKWfUM=
+git.front.kjuulh.io/kjuulh/dagger-go v0.0.10/go.mod h1:N/EXT0aOJzph/9AXuFlaA2ZuKU0P8WzaDZQXLlAL0D8=
 github.com/99designs/gqlgen v0.17.2/go.mod h1:K5fzLKwtph+FFgh9j7nFbRUdBKvTcGnsta51fsMTn3o=
 github.com/BurntSushi/toml v0.3.1/go.mod h1:xHWCNGjB5oqiDr8zfno3MHue2Ht5sIBksp03qcyfWMU=
 github.com/BurntSushi/xgb v0.0.0-20160522181843-27f122750802/go.mod h1:IVnqGOEym/WlBOVXweHU+Q+/VP0lqqI8lqeDx9IjBqo=
