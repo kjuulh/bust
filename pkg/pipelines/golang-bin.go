@@ -85,21 +85,18 @@ func (p *Pipeline) WithGolangBin(opts *GolangBinOpts) *Pipeline {
 					usrbin := fmt.Sprintf("/usr/bin/%s", opts.BinName)
 					c := container.MountFileFromLoaded(scratch, bin, tempmount)
 					c = c.Exec(dagger.ContainerExecOpts{
-						Args: []string{"mkdir", "-p", "/usr/bin"},
-					})
-					c = c.Exec(dagger.ContainerExecOpts{
-						Args: []string{"cp", tempmount, usrbin},
+						Args: []string{"mkdir", "-p", "/usr/bin", "&&", "cp", tempmount, usrbin},
 					})
 					finalImage = c.WithEntrypoint([]string{opts.BinName})
 
 					return nil
 				},
 			},
-			byg.Step{
-				Execute: func(_ byg.Context) error {
-					return golang.Test(ctx, build)
-				},
-			},
+			//byg.Step{
+			//	Execute: func(_ byg.Context) error {
+			//		return golang.Test(ctx, build)
+			//	},
+			//},
 		).
 		Step(
 			"upload-image",
