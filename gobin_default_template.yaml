@@ -4,7 +4,7 @@ name: "drone-dagger-test"
 
 steps:
   - name: "build"
-    image: harbor.front.kjuulh.io/docker-proxy/library/docker:dind
+    image: harbor.front.kjuulh.io/kjuulh/dagger-go:latest
     volumes:
       - name: dockersock
         path: /var/run
@@ -17,25 +17,9 @@ steps:
         from_secret: "harbor_docker_password"
     commands:
       - sleep 5
-        echo "$${HARBOR_DOCKER_PASSWORD}" | docker login
-        --password-stdin
-        --username="$${HARBOR_DOCKER_USERNAME}"
-        "$${HARBOR_DOCKER_HOST}"
-      - docker pull harbor.front.kjuulh.io/kjuulh/dagger-go:latest
-      - >
-        docker run
-        -e DRONE_REPO_NAME="${DRONE_REPO_NAME}"
-        -e HARBOR_DOCKER_HOST=$${HARBOR_DOCKER_HOST}
-        -e HARBOR_DOCKER_USERNAME=$${HARBOR_DOCKER_USERNAME}
-        -e HARBOR_DOCKER_PASSWORD=$${HARBOR_DOCKER_PASSWORD}
-        -v "$PWD/:/src/"
-        -v /var/run/docker.sock:/var/run/docker.sock
-        harbor.front.kjuulh.io/kjuulh/dagger-go:latest
-        sh -c 'echo "$$HARBOR_DOCKER_PASSWORD" |  docker login
-        --password-stdin
-        --username="$$HARBOR_DOCKER_USERNAME"
-        "$${HARBOR_DOCKER_HOST}"
-        && dagger-go build golangbin'
+      - ls -la /usr/bin
+      - cp /usr/bin/dagger-go /dagger-go
+      - sh -c "/dagger-go build golangbin"
 
 services:
   - name: docker
@@ -48,3 +32,6 @@ services:
 volumes:
   - name: dockersock
     temp: {}
+
+image_pull_secrets:
+  - dockerconfig

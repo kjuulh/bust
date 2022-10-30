@@ -10,6 +10,8 @@ import (
 )
 
 func main() {
+	log.Printf("building dagger-go")
+
 	err := cli.NewCustomGoBuild("golangbin", func(ctx context.Context) error {
 		builder, err := builder.New(ctx)
 		if err != nil {
