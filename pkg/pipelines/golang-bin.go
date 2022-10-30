@@ -85,7 +85,7 @@ func (p *Pipeline) WithGolangBin(opts *GolangBinOpts) *Pipeline {
 							"sh",
 							"-c",
 							fmt.Sprintf(
-								"'ls %s && cp %s, %s'", tempmount, tempmount, usrbin,
+								"'ls %s && cp %s %s'", tempmount, tempmount, usrbin,
 							),
 						},
 					})
