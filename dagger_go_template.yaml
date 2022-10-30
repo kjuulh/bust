@@ -12,17 +12,36 @@ steps:
       DOCKER_BUILDKIT: 1
       HARBOR_DOCKER_HOST: "harbor.front.kjuulh.io"
       HARBOR_DOCKER_USERNAME:
-        secret: "harbor_docker_username"
+        from_secret: "harbor_docker_username"
       HARBOR_DOCKER_PASSWORD:
-        secret: "harbor_docker_password"
+        from_secret: "harbor_docker_password"
     commands:
       - "sleep 5"
       - apk add git
       - mkdir -p tmp/dagger-go
-      - 'echo "$HARBOR_DOCKER_PASSWORD" |  docker login  --username "$HARBOR_DOCKER_USERNAME" --password-stdin "$HARBOR_DOCKER_HOST"'
       - git clone "https://git.front.kjuulh.io/kjuulh/dagger-go.git" tmp/dagger-go
-      - docker build -t dagger-go-builder:${DRONE_COMMIT} -f tmp/dagger-go/Dockerfile .
-      - 'docker run -v "$PWD/:/src/" -e DRONE_REPO_NAME="${DRONE_REPO_NAME}" -v /var/run/docker.sock:/var/run/docker.sock dagger-go-builder:${DRONE_COMMIT} dagger-go build golangbin'
+      - >
+        echo "$${HARBOR_DOCKER_PASSWORD}" | docker login
+        --password-stdin
+        --username="$${HARBOR_DOCKER_USERNAME}"
+        "$${HARBOR_DOCKER_HOST}"
+      - >
+        docker pull harbor.front.kjuulh.io/kjuulh/dagger-go-builder:${DRONE_COMMIT} || 
+        (docker build -t harbor.front.kjuulh.io/kjuulh/dagger-go-builder:${DRONE_COMMIT} -f tmp/dagger-go/Dockerfile . && docker push harbor.front.kjuulh.io/kjuulh/dagger-go-builder:${DRONE_COMMIT})
+      - >
+        docker run
+        -e DRONE_REPO_NAME="${DRONE_REPO_NAME}"
+        -e HARBOR_DOCKER_HOST=$${HARBOR_DOCKER_HOST}
+        -e HARBOR_DOCKER_USERNAME=$${HARBOR_DOCKER_USERNAME}
+        -e HARBOR_DOCKER_PASSWORD=$${HARBOR_DOCKER_PASSWORD}
+        -v "$PWD/:/src/"
+        -v /var/run/docker.sock:/var/run/docker.sock
+        harbor.front.kjuulh.io/kjuulh/dagger-go-builder:${DRONE_COMMIT}
+        sh -c 'echo "$$HARBOR_DOCKER_PASSWORD" |  docker login
+        --password-stdin
+        --username="$$HARBOR_DOCKER_USERNAME"
+        "$${HARBOR_DOCKER_HOST}"
+        && dagger-go build golangbin'
 
 services:
   - name: docker

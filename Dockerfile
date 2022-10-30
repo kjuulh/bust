@@ -11,4 +11,3 @@ FROM harbor.front.kjuulh.io/docker-proxy/library/docker:dind
 WORKDIR /src
 
 COPY --from=builder /src/builder/dist/dagger-go /usr/bin/
-
