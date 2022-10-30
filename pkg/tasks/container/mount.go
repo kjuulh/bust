@@ -21,7 +21,12 @@ func MountCurrent(ctx context.Context, client *dagger.Client, container *dagger.
 	return container.WithMountedDirectory(into, src), nil
 }
 
-func MountFileFromLoaded(container *dagger.Container, bin dagger.FileID, path string) *dagger.Container {
+func MountFileFromLoaded(ctx context.Context, container *dagger.Container, bin dagger.FileID, path string) (*dagger.Container, error) {
 	log.Printf("mounting binary into container: into (path=%s)", path)
-	return container.WithMountedFile(path, bin)
+	newFs, err := container.FS().WithCopiedFile(path, bin).ID(ctx)
+	if err != nil {
+		return nil, err
+	}
+
+	return container.WithFS(newFs), nil
 }

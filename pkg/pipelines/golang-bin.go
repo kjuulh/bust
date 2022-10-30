@@ -69,14 +69,17 @@ func (p *Pipeline) WithGolangBin(opts *GolangBinOpts) *Pipeline {
 		Step(
 			"create-production-image",
 			byg.Step{
-				Execute: func(ctx byg.Context) error {
+				Execute: func(_ byg.Context) error {
 					if opts.BaseImage == "" {
 						opts.BaseImage = "harbor.front.kjuulh.io/docker-proxy/library/busybox"
 					}
 
 					usrbin := fmt.Sprintf("/usr/bin/%s", opts.BinName)
 					c := container.LoadImage(client, opts.BaseImage)
-					c = container.MountFileFromLoaded(c, bin, usrbin)
+					c, err := container.MountFileFromLoaded(ctx, c, bin, usrbin)
+					if err != nil {
+						return err
+					}
 					finalImage = c.WithEntrypoint([]string{usrbin})
 
 					return nil
