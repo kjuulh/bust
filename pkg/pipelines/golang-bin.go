@@ -82,11 +82,7 @@ func (p *Pipeline) WithGolangBin(opts *GolangBinOpts) *Pipeline {
 					c = container.MountFileFromLoaded(c, bin, tempmount)
 					c = c.Exec(dagger.ContainerExecOpts{
 						Args: []string{
-							"sh",
-							"-c",
-							fmt.Sprintf(
-								"'ls %s'", tempmount,
-							),
+							"ls", "/tmp/bin",
 						},
 					})
 					finalImage = c.WithEntrypoint([]string{usrbin})
