@@ -1,0 +1,40 @@
+package main
+
+import (
+	"context"
+	"log"
+
+	"git.front.kjuulh.io/kjuulh/dagger-go/pkg/builder"
+	"git.front.kjuulh.io/kjuulh/dagger-go/pkg/cli"
+	"git.front.kjuulh.io/kjuulh/dagger-go/pkg/pipelines"
+)
+
+func main() {
+	err := cli.NewCustomGoBuild("golangbin", func(ctx context.Context) error {
+		builder, err := builder.New(ctx)
+		if err != nil {
+			return err
+		}
+
+		err = pipelines.
+			New(builder).
+			WithGolangBin(&pipelines.GolangBinOpts{
+				DockerImageOpt: &pipelines.DockerImageOpt{
+					ImageName: "dagger-go",
+				},
+				BuildPath: "main.go",
+				BinName:   "dagger-go",
+				BaseImage: "harbor.front.kjuulh.io/docker-proxy/library/docker:dind",
+			}).
+			Execute(ctx)
+
+		if err != nil {
+			return err
+		}
+
+		return nil
+	})
+	if err != nil {
+		log.Fatal(err)
+	}
+}

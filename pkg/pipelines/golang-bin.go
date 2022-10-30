@@ -23,6 +23,7 @@ type GolangBinOpts struct {
 	*DockerImageOpt
 	BuildPath string
 	BinName   string
+	BaseImage string
 }
 
 func (p *Pipeline) WithGolangBin(opts *GolangBinOpts) *Pipeline {
@@ -67,7 +68,11 @@ func (p *Pipeline) WithGolangBin(opts *GolangBinOpts) *Pipeline {
 			},
 			byg.Step{
 				Execute: func(ctx byg.Context) error {
-					scratch = container.LoadImage(client, "harbor.front.kjuulh.io/docker-proxy/library/busybox")
+					if opts.BaseImage == "" {
+						opts.BaseImage = "harbor.front.kjuulh.io/docker-proxy/library/busybox"
+					}
+
+					scratch = container.LoadImage(client, opts.BaseImage)
 					return nil
 				},
 			},

@@ -1,0 +1,4 @@
+kind: template
+load: dagger_go_template.yaml
+name: dagger-go
+data: {}
