@@ -35,7 +35,6 @@ func (p *Pipeline) WithGolangBin(opts *GolangBinOpts) *Pipeline {
 	var (
 		bin        dagger.FileID
 		build      *dagger.Container
-		scratch    *dagger.Container
 		finalImage *dagger.Container
 	)
 
@@ -66,24 +65,20 @@ func (p *Pipeline) WithGolangBin(opts *GolangBinOpts) *Pipeline {
 					return err
 				},
 			},
-			byg.Step{
-				Execute: func(ctx byg.Context) error {
-					if opts.BaseImage == "" {
-						opts.BaseImage = "harbor.front.kjuulh.io/docker-proxy/library/busybox"
-					}
-
-					scratch = container.LoadImage(client, opts.BaseImage)
-					return nil
-				},
-			},
 		).
 		Step(
 			"create-production-image",
 			byg.Step{
 				Execute: func(ctx byg.Context) error {
+					if opts.BaseImage == "" {
+						opts.BaseImage = "harbor.front.kjuulh.io/docker-proxy/library/busybox"
+					}
+					c := container.LoadImage(client, opts.BaseImage)
+
 					tempmount := fmt.Sprintf("/tmp/%s", opts.BinName)
 					usrbin := fmt.Sprintf("/bin/%s", opts.BinName)
-					c := container.MountFileFromLoaded(scratch, bin, tempmount)
+					log.Printf("binname: %s", bin)
+					c = container.MountFileFromLoaded(c, bin, tempmount)
 					c = c.Exec(dagger.ContainerExecOpts{
 						Args: []string{"cp", tempmount, usrbin},
 					})
