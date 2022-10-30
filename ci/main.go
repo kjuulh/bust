@@ -25,7 +25,7 @@ func main() {
 					ImageName: "dagger-go",
 				},
 				BuildPath: "main.go",
-				BinName:   "main",
+				BinName:   "dagger-go",
 				BaseImage: "harbor.front.kjuulh.io/docker-proxy/library/docker:dind",
 			}).
 			Execute(ctx)
