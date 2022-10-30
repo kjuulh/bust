@@ -32,8 +32,9 @@ func BuildGolangBin() *cobra.Command {
 					DockerImageOpt: &pipelines.DockerImageOpt{
 						ImageName: repoName,
 					},
-					BuildPath: "main.go",
-					BinName:   "main",
+					BuildPath:           "main.go",
+					BinName:             "main",
+					ExecuteOnEntrypoint: true,
 				}).
 				Execute(ctx)
 		},

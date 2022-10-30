@@ -22,9 +22,10 @@ type DockerImageOpt struct {
 
 type GolangBinOpts struct {
 	*DockerImageOpt
-	BuildPath string
-	BinName   string
-	BaseImage string
+	BuildPath           string
+	BinName             string
+	BaseImage           string
+	ExecuteOnEntrypoint bool
 }
 
 func (p *Pipeline) WithGolangBin(opts *GolangBinOpts) *Pipeline {
@@ -85,7 +86,11 @@ func (p *Pipeline) WithGolangBin(opts *GolangBinOpts) *Pipeline {
 					if err != nil {
 						return err
 					}
-					finalImage = c.WithEntrypoint([]string{usrbin})
+					if opts.ExecuteOnEntrypoint {
+						finalImage = c.WithEntrypoint([]string{usrbin})
+					} else {
+						finalImage = c
+					}
 
 					return nil
 				},
