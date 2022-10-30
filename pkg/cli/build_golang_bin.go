@@ -2,7 +2,6 @@ package cli
 
 import (
 	"errors"
-	"fmt"
 	"os"
 
 	"git.front.kjuulh.io/kjuulh/dagger-go/pkg/builder"
@@ -18,7 +17,6 @@ func BuildGolangBin() *cobra.Command {
 			if repoName == "" {
 				return errors.New("could not find DRONE_REPO_NAME")
 			}
-			imageTag := fmt.Sprintf("harbor.front.kjuulh.io/library/%s", repoName)
 
 			ctx := cmd.Context()
 
@@ -32,7 +30,7 @@ func BuildGolangBin() *cobra.Command {
 				New(builder).
 				WithGolangBin(&pipelines.GolangBinOpts{
 					DockerImageOpt: &pipelines.DockerImageOpt{
-						ImageName: imageTag,
+						ImageName: repoName,
 					},
 					BuildPath: "main.go",
 					BinName:   "main",
