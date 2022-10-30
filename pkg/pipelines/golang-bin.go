@@ -82,7 +82,12 @@ func (p *Pipeline) WithGolangBin(opts *GolangBinOpts) *Pipeline {
 					c = c.Exec(dagger.ContainerExecOpts{
 						Args: []string{"mkdir", "-p", binpath},
 					})
-					c, err := container.MountFileFromLoaded(ctx, c, bin, usrbin)
+					_, err := c.ExitCode(ctx)
+					if err != nil {
+						return err
+					}
+
+					c, err = container.MountFileFromLoaded(ctx, c, bin, usrbin)
 					if err != nil {
 						return err
 					}
