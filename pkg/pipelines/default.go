@@ -1,13 +1,12 @@
 package pipelines
 
 import (
-	"context"
 	"log"
 
 	"git.front.kjuulh.io/kjuulh/byg"
 )
 
-func (p *Pipeline) WithDefault() error {
+func (p *Pipeline) WithDefault() *byg.Builder {
 	return byg.
 		New().
 		Step(
@@ -17,7 +16,5 @@ func (p *Pipeline) WithDefault() error {
 					log.Println("Hello, world!")
 					return nil
 				},
-			}).
-		Execute(context.Background())
-
+			})
 }

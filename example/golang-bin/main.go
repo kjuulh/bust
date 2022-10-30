@@ -4,7 +4,7 @@ import (
 	"context"
 	"log"
 
-	"git.front.kjuulh.io/kjuulh/dagger-go/internal"
+	"git.front.kjuulh.io/kjuulh/dagger-go/pkg/builder"
 	"git.front.kjuulh.io/kjuulh/dagger-go/pkg/pipelines"
 )
 
@@ -16,7 +16,7 @@ func main() {
 	}
 }
 func run(ctx context.Context) error {
-	builder, err := internal.New(ctx)
+	builder, err := builder.New(ctx)
 	if err != nil {
 		return err
 	}

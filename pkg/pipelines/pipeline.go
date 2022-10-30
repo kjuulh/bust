@@ -4,16 +4,16 @@ import (
 	"context"
 
 	"git.front.kjuulh.io/kjuulh/byg"
-	"git.front.kjuulh.io/kjuulh/dagger-go/internal"
+	"git.front.kjuulh.io/kjuulh/dagger-go/pkg/builder"
 	"golang.org/x/sync/errgroup"
 )
 
 type Pipeline struct {
-	builder   *internal.Builder
+	builder   *builder.Builder
 	pipelines []*byg.Builder
 }
 
-func New(builder *internal.Builder) *Pipeline {
+func New(builder *builder.Builder) *Pipeline {
 	return &Pipeline{builder: builder}
 }
 
