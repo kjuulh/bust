@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"log"
+	"path"
 	"strconv"
 	"time"
 
@@ -74,8 +75,12 @@ func (p *Pipeline) WithGolangBin(opts *GolangBinOpts) *Pipeline {
 						opts.BaseImage = "harbor.front.kjuulh.io/docker-proxy/library/busybox"
 					}
 
-					usrbin := fmt.Sprintf("/usr/bin/%s", opts.BinName)
+					binpath := "/usr/bin"
+					usrbin := path.Join(binpath, opts.BinName)
 					c := container.LoadImage(client, opts.BaseImage)
+					c = c.Exec(dagger.ContainerExecOpts{
+						Args: []string{"mkdir", "-p", binpath},
+					})
 					c, err := container.MountFileFromLoaded(ctx, c, bin, usrbin)
 					if err != nil {
 						return err
@@ -85,11 +90,11 @@ func (p *Pipeline) WithGolangBin(opts *GolangBinOpts) *Pipeline {
 					return nil
 				},
 			},
-			//byg.Step{
-			//	Execute: func(_ byg.Context) error {
-			//		return golang.Test(ctx, build)
-			//	},
-			//},
+			byg.Step{
+				Execute: func(_ byg.Context) error {
+					return golang.Test(ctx, build)
+				},
+			},
 		).
 		Step(
 			"upload-image",

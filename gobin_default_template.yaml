@@ -4,7 +4,7 @@ name: "drone-dagger-test"
 
 steps:
   - name: "build"
-    image: harbor.front.kjuulh.io/kjuulh/dagger-go:1667165411134
+    image: harbor.front.kjuulh.io/kjuulh/dagger-go:1667165924347
     volumes:
       - name: dockersock
         path: /var/run
@@ -17,7 +17,7 @@ steps:
         from_secret: "harbor_docker_password"
     commands:
       - sleep 5
-      - ls /usr/bin/
+      - dagger-go build golangbin
 
 services:
   - name: docker
