@@ -74,10 +74,11 @@ func (p *Pipeline) WithGolangBin(opts *GolangBinOpts) *Pipeline {
 						opts.BaseImage = "harbor.front.kjuulh.io/docker-proxy/library/busybox"
 					}
 					c := container.LoadImage(client, opts.BaseImage)
-
-					tempmount := fmt.Sprintf("/tmp/%s", opts.BinName)
-					usrbin := fmt.Sprintf("/bin/%s", opts.BinName)
-					log.Printf("binname: %s", bin)
+					c = c.Exec(dagger.ContainerExecOpts{
+						Args: []string{"mkdir", "-p", "/tmp/bin/", "/usr/bin/"},
+					})
+					tempmount := fmt.Sprintf("/tmp/bin/%s", opts.BinName)
+					usrbin := fmt.Sprintf("/usr/bin/%s", opts.BinName)
 					c = container.MountFileFromLoaded(c, bin, tempmount)
 					c = c.Exec(dagger.ContainerExecOpts{
 						Args: []string{"cp", tempmount, usrbin},
