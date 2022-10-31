@@ -1,0 +1,4 @@
+kind: template
+load: bust_docker_template.yaml
+name: [[.Name]]
+data: {}

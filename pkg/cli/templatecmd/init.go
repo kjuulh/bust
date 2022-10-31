@@ -3,6 +3,7 @@ package templatecmd
 import (
 	"embed"
 	"errors"
+	"fmt"
 	"os"
 	"text/template"
 
@@ -11,6 +12,9 @@ import (
 
 //go:embed templates/gobin_default/*
 var gobinDefault embed.FS
+
+//go:embed templates/docker/*
+var docker embed.FS
 
 func NewInitCmd() *cobra.Command {
 	var (
@@ -27,7 +31,12 @@ func NewInitCmd() *cobra.Command {
 
 			switch template {
 			case "gobin_default":
-				if err := initializeTemplate(&gobinDefault, name); err != nil {
+				if err := initializeTemplate(&gobinDefault, "gobin_default", name); err != nil {
+					return err
+				}
+				break
+			case "docker":
+				if err := initializeTemplate(&docker, "docker", name); err != nil {
 					return err
 				}
 				break
@@ -48,13 +57,16 @@ func NewInitCmd() *cobra.Command {
 	return cmd
 }
 
-func initializeTemplate(t *embed.FS, name string) error {
+func initializeTemplate(t *embed.FS, path string, name string) error {
 	tinit := template.
 		Must(
 			template.
 				New("").
 				Delims("[[", "]]").
-				ParseFS(t, "templates/gobin_default/*"),
+				ParseFS(
+					t,
+					fmt.Sprintf("templates/%s/*", path),
+				),
 		)
 	type data struct {
 		Name string
