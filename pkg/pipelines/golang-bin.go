@@ -73,7 +73,7 @@ func (p *Pipeline) WithGolangBin(opts *GolangBinOpts) *Pipeline {
 			byg.Step{
 				Execute: func(_ byg.Context) error {
 					if opts.BaseImage == "" {
-						opts.BaseImage = "harbor.server.kjuulh.io/docker-proxy/library/busybox"
+						opts.BaseImage = "harbor.server.kjuulh.io/docker-proxy/library/golang"
 					}
 
 					binpath := "/usr/bin"
