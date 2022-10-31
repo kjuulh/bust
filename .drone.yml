@@ -1,4 +1,4 @@
 kind: template
-load: dagger_go_template.yaml
-name: dagger-go
+load: bust_gobin_template.yaml
+name: bust
 data: {}
