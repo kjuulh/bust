@@ -4,11 +4,12 @@ go 1.19
 
 require (
 	dagger.io/dagger v0.3.1
+	git.front.kjuulh.io/kjuulh/byg v0.0.7
 	github.com/spf13/cobra v1.6.1
+	golang.org/x/sync v0.1.0
 )
 
 require (
-	git.front.kjuulh.io/kjuulh/byg v0.0.7 // indirect
 	github.com/Khan/genqlient v0.5.0 // indirect
 	github.com/Microsoft/go-winio v0.5.2 // indirect
 	github.com/agext/levenshtein v1.2.3 // indirect
@@ -69,7 +70,6 @@ require (
 	go.opentelemetry.io/proto/otlp v0.18.0 // indirect
 	golang.org/x/crypto v0.0.0-20220722155217-630584e8d5aa // indirect
 	golang.org/x/net v0.0.0-20220811182439-13a9a731de15 // indirect
-	golang.org/x/sync v0.1.0 // indirect
 	golang.org/x/sys v0.0.0-20220811171246-fbc7d0a398ab // indirect
 	golang.org/x/text v0.3.7 // indirect
 	golang.org/x/time v0.0.0-20220722155302-e5dcc9cfc0b9 // indirect
