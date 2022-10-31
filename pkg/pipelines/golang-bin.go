@@ -100,11 +100,11 @@ func (p *Pipeline) WithGolangBin(opts *GolangBinOpts) *Pipeline {
 					return nil
 				},
 			},
-			byg.Step{
-				Execute: func(_ byg.Context) error {
-					return golang.Test(ctx, build)
-				},
-			},
+			//byg.Step{
+			//	Execute: func(_ byg.Context) error {
+			//		return golang.Test(ctx, build)
+			//	},
+			//},
 		).
 		Step(
 			"upload-image",
