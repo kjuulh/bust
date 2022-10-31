@@ -24,9 +24,10 @@ func main() {
 				DockerImageOpt: &pipelines.DockerImageOpt{
 					ImageName: "dagger-go",
 				},
-				BuildPath: "main.go",
-				BinName:   "dagger-go",
-				BaseImage: "harbor.server.kjuulh.io/docker-proxy/library/docker:dind",
+				BuildPath:  "main.go",
+				BinName:    "dagger-go",
+				BaseImage:  "harbor.server.kjuulh.io/docker-proxy/library/docker:dind",
+				CGOEnabled: true,
 			}).
 			Execute(ctx)
 
