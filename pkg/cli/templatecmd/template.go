@@ -7,7 +7,10 @@ func NewTemplateCmd() *cobra.Command {
 		Use: "template",
 	}
 
-	cmd.AddCommand(NewInitCmd())
+	cmd.AddCommand(
+		NewInitCmd(),
+		NewLsCmd(),
+	)
 
 	return cmd
 }
