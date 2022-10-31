@@ -26,6 +26,7 @@ type GolangBinOpts struct {
 	BinName             string
 	BaseImage           string
 	ExecuteOnEntrypoint bool
+	CGOEnabled          bool
 }
 
 func (p *Pipeline) WithGolangBin(opts *GolangBinOpts) *Pipeline {
@@ -54,6 +55,12 @@ func (p *Pipeline) WithGolangBin(opts *GolangBinOpts) *Pipeline {
 					}
 					c = container.Workdir(c, "/src")
 
+					if opts.CGOEnabled {
+						c = c.WithEnvVariable("CGO_ENABLED", "1")
+					} else {
+						c = c.WithEnvVariable("CGO_ENABLED", "0")
+					}
+
 					build, err = golang.Cache(ctx, client, c)
 					if err != nil {
 						return err
@@ -73,7 +80,7 @@ func (p *Pipeline) WithGolangBin(opts *GolangBinOpts) *Pipeline {
 			byg.Step{
 				Execute: func(_ byg.Context) error {
 					if opts.BaseImage == "" {
-						opts.BaseImage = "harbor.server.kjuulh.io/docker-proxy/library/golang"
+						opts.BaseImage = "harbor.server.kjuulh.io/docker-proxy/library/alpine"
 					}
 
 					binpath := "/usr/bin"

@@ -34,6 +34,7 @@ func BuildGolangBin() *cobra.Command {
 					},
 					BuildPath:           "main.go",
 					BinName:             "main",
+					CGOEnabled:          false,
 					ExecuteOnEntrypoint: false,
 				}).
 				Execute(ctx)
