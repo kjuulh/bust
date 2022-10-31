@@ -1,0 +1,4 @@
+kind: template
+load: bust_gobin_default_template.yaml
+name: something
+data: {}
