@@ -47,7 +47,7 @@ func (p *Pipeline) WithGolangBin(opts *GolangBinOpts) *Pipeline {
 			byg.Step{
 				Execute: func(_ byg.Context) error {
 					var err error
-					c := container.LoadImage(client, "harbor.front.kjuulh.io/docker-proxy/library/golang")
+					c := container.LoadImage(client, "harbor.server.kjuulh.io/docker-proxy/library/golang")
 					c, err = container.MountCurrent(ctx, client, c, "/src")
 					if err != nil {
 						return err
@@ -73,7 +73,7 @@ func (p *Pipeline) WithGolangBin(opts *GolangBinOpts) *Pipeline {
 			byg.Step{
 				Execute: func(_ byg.Context) error {
 					if opts.BaseImage == "" {
-						opts.BaseImage = "harbor.front.kjuulh.io/docker-proxy/library/busybox"
+						opts.BaseImage = "harbor.server.kjuulh.io/docker-proxy/library/busybox"
 					}
 
 					binpath := "/usr/bin"
@@ -115,7 +115,7 @@ func (p *Pipeline) WithGolangBin(opts *GolangBinOpts) *Pipeline {
 						opts.ImageTag = strconv.FormatInt(time.Now().UTC().UnixMilli(), 10)
 					}
 
-					tag := fmt.Sprintf("harbor.front.kjuulh.io/kjuulh/%s:%s", opts.ImageName, opts.ImageTag)
+					tag := fmt.Sprintf("harbor.server.kjuulh.io/kjuulh/%s:%s", opts.ImageName, opts.ImageTag)
 
 					_, err := finalImage.Publish(ctx, tag)
 					return err
