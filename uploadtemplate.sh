@@ -7,7 +7,7 @@ function add_template() {
   drone template update --namespace "${namespace}" --name "${name}" --data "@${name}"
 }
 
-add_template kjuulh dagger_go_template.yaml
-add_template kjuulh gobin_default_template.yaml
+add_template kjuulh bust_gobin_template.yaml
+add_template kjuulh bust_gobin_default_template.yaml
 
 

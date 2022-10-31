@@ -10,9 +10,9 @@ import (
 
 	"dagger.io/dagger"
 	"git.front.kjuulh.io/kjuulh/byg"
-	"git.front.kjuulh.io/kjuulh/dagger-go/pkg/tasks/container"
-	"git.front.kjuulh.io/kjuulh/dagger-go/pkg/tasks/golang"
-	golangbin "git.front.kjuulh.io/kjuulh/dagger-go/pkg/tasks/golang-bin"
+	"git.front.kjuulh.io/kjuulh/bust/pkg/tasks/container"
+	"git.front.kjuulh.io/kjuulh/bust/pkg/tasks/golang"
+	golangbin "git.front.kjuulh.io/kjuulh/bust/pkg/tasks/golang-bin"
 )
 
 type DockerImageOpt struct {

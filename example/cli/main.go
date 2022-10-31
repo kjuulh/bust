@@ -3,7 +3,7 @@ package main
 import (
 	"log"
 
-	"git.front.kjuulh.io/kjuulh/dagger-go/pkg/cli"
+	"git.front.kjuulh.io/kjuulh/bust/pkg/cli"
 )
 
 func main() {

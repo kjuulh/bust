@@ -4,7 +4,7 @@ import (
 	"context"
 
 	"git.front.kjuulh.io/kjuulh/byg"
-	"git.front.kjuulh.io/kjuulh/dagger-go/pkg/builder"
+	"git.front.kjuulh.io/kjuulh/bust/pkg/builder"
 	"golang.org/x/sync/errgroup"
 )
 

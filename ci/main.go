@@ -4,13 +4,13 @@ import (
 	"context"
 	"log"
 
-	"git.front.kjuulh.io/kjuulh/dagger-go/pkg/builder"
-	"git.front.kjuulh.io/kjuulh/dagger-go/pkg/cli"
-	"git.front.kjuulh.io/kjuulh/dagger-go/pkg/pipelines"
+	"git.front.kjuulh.io/kjuulh/bust/pkg/builder"
+	"git.front.kjuulh.io/kjuulh/bust/pkg/cli"
+	"git.front.kjuulh.io/kjuulh/bust/pkg/pipelines"
 )
 
 func main() {
-	log.Printf("building dagger-go")
+	log.Printf("building bust")
 
 	err := cli.NewCustomGoBuild("golangbin", func(ctx context.Context) error {
 		builder, err := builder.New(ctx)
@@ -22,10 +22,10 @@ func main() {
 			New(builder).
 			WithGolangBin(&pipelines.GolangBinOpts{
 				DockerImageOpt: &pipelines.DockerImageOpt{
-					ImageName: "dagger-go",
+					ImageName: "bust",
 				},
 				BuildPath:  "main.go",
-				BinName:    "dagger-go",
+				BinName:    "bust",
 				BaseImage:  "harbor.server.kjuulh.io/docker-proxy/library/docker:dind",
 				CGOEnabled: true,
 			}).

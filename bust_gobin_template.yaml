@@ -18,16 +18,16 @@ steps:
     commands:
       - sleep 5
       - apk add git
-      - mkdir -p tmp/dagger-go
-      - git clone "https://git.front.kjuulh.io/kjuulh/dagger-go.git" tmp/dagger-go
+      - mkdir -p tmp/bust
+      - git clone "https://git.front.kjuulh.io/kjuulh/bust.git" tmp/bust
       - >
         echo "$${HARBOR_DOCKER_PASSWORD}" | docker login
         --password-stdin
         --username="$${HARBOR_DOCKER_USERNAME}"
         "$${HARBOR_DOCKER_HOST}"
       - >
-        docker pull harbor.server.kjuulh.io/kjuulh/dagger-go-builder:${DRONE_COMMIT} || 
-        (docker build -t harbor.server.kjuulh.io/kjuulh/dagger-go-builder:${DRONE_COMMIT} -f tmp/dagger-go/Dockerfile . && docker push harbor.server.kjuulh.io/kjuulh/dagger-go-builder:${DRONE_COMMIT})
+        docker pull harbor.server.kjuulh.io/kjuulh/bust-builder:${DRONE_COMMIT} || 
+        (docker build -t harbor.server.kjuulh.io/kjuulh/bust-builder:${DRONE_COMMIT} -f tmp/bust/Dockerfile . && docker push harbor.server.kjuulh.io/kjuulh/bust-builder:${DRONE_COMMIT})
       - >
         docker run
         -e DRONE_REPO_NAME="${DRONE_REPO_NAME}"
@@ -36,12 +36,12 @@ steps:
         -e HARBOR_DOCKER_PASSWORD=$${HARBOR_DOCKER_PASSWORD}
         -v "$PWD/:/src/"
         -v /var/run/docker.sock:/var/run/docker.sock
-        harbor.server.kjuulh.io/kjuulh/dagger-go-builder:${DRONE_COMMIT}
+        harbor.server.kjuulh.io/kjuulh/bust-builder:${DRONE_COMMIT}
         sh -c 'echo "$$HARBOR_DOCKER_PASSWORD" |  docker login
         --password-stdin
         --username="$$HARBOR_DOCKER_USERNAME"
         "$${HARBOR_DOCKER_HOST}"
-        && dagger-go build golangbin'
+        && bust build golangbin'
 
 services:
   - name: docker

@@ -4,8 +4,8 @@ import (
 	"errors"
 	"os"
 
-	"git.front.kjuulh.io/kjuulh/dagger-go/pkg/builder"
-	"git.front.kjuulh.io/kjuulh/dagger-go/pkg/pipelines"
+	"git.front.kjuulh.io/kjuulh/bust/pkg/builder"
+	"git.front.kjuulh.io/kjuulh/bust/pkg/pipelines"
 	"github.com/spf13/cobra"
 )
 

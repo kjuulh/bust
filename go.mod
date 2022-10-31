@@ -1,4 +1,4 @@
-module git.front.kjuulh.io/kjuulh/dagger-go
+module git.front.kjuulh.io/kjuulh/bust
 
 go 1.19
 

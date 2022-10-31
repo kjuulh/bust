@@ -4,10 +4,10 @@ WORKDIR /src/builder
 
 COPY ci/. .
 
-RUN go build -o dist/dagger-go main.go
+RUN go build -o dist/bust main.go
 
 FROM harbor.server.kjuulh.io/docker-proxy/library/docker:dind
 
 WORKDIR /src
 
-COPY --from=builder /src/builder/dist/dagger-go /usr/bin/
+COPY --from=builder /src/builder/dist/bust /usr/bin/
