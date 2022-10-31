@@ -1,0 +1,40 @@
+type: docker
+kind: pipeline
+name: "drone-dagger-test"
+
+steps:
+  - name: "build"
+    image: harbor.server.kjuulh.io/kjuulh/bust:1667244085545
+    volumes:
+      - name: dockersock
+        path: /var/run
+    environment:
+      DOCKER_BUILDKIT: 1
+      HARBOR_DOCKER_HOST: "harbor.server.kjuulh.io"
+      HARBOR_DOCKER_USERNAME:
+        from_secret: "harbor_docker_username"
+      HARBOR_DOCKER_PASSWORD:
+        from_secret: "harbor_docker_password"
+    commands:
+      - sleep 5
+      - >
+        echo "$${HARBOR_DOCKER_PASSWORD}" | docker login
+        --password-stdin
+        --username="$${HARBOR_DOCKER_USERNAME}"
+        "$${HARBOR_DOCKER_HOST}"
+      - bust build docker
+
+services:
+  - name: docker
+    image: docker:dind
+    privileged: true
+    volumes:
+      - name: dockersock
+        path: /var/run
+
+volumes:
+  - name: dockersock
+    temp: {}
+
+image_pull_secrets:
+  - dockerconfig

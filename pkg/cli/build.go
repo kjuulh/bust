@@ -9,7 +9,10 @@ func Build() *cobra.Command {
 		Use: "build",
 	}
 
-	cmd.AddCommand(BuildGolangBin())
+	cmd.AddCommand(
+		BuildGolangBin(),
+		BuildDocker(),
+	)
 
 	return cmd
 }
