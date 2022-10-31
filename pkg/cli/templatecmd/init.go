@@ -16,6 +16,9 @@ var gobinDefault embed.FS
 //go:embed templates/docker/*
 var docker embed.FS
 
+//go:embed templates/default/*
+var defaultFs embed.FS
+
 func NewInitCmd() *cobra.Command {
 	var (
 		template string
@@ -37,6 +40,11 @@ func NewInitCmd() *cobra.Command {
 				break
 			case "docker":
 				if err := initializeTemplate(&docker, "docker", name); err != nil {
+					return err
+				}
+				break
+			case "default":
+				if err := initializeTemplate(&defaultFs, "default", name); err != nil {
 					return err
 				}
 				break

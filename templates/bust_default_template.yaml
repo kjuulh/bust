@@ -22,7 +22,7 @@ steps:
         --password-stdin
         --username="$${HARBOR_DOCKER_USERNAME}"
         "$${HARBOR_DOCKER_HOST}"
-      - bust build docker
+      - bust build default
 
 services:
   - name: docker

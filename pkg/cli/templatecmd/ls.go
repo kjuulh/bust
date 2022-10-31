@@ -6,7 +6,7 @@ import (
 	"github.com/spf13/cobra"
 )
 
-var templates = []string{"docker", "gobin_default"}
+var templates = []string{"docker", "gobin_default", "default"}
 
 func NewLsCmd() *cobra.Command {
 	return &cobra.Command{

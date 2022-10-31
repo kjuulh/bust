@@ -1,0 +1,4 @@
+kind: template
+load: bust_default_template.yaml
+name: [[.Name]]
+data: {}
