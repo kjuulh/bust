@@ -11,3 +11,4 @@ add_template kjuulh bust_default_template.yaml
 add_template kjuulh bust_docker_template.yaml
 add_template kjuulh bust_gobin_template.yaml
 add_template kjuulh bust_gobin_default_template.yaml
+add_template kjuulh bust_rustbin_default_template.yaml

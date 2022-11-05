@@ -3,8 +3,8 @@ package pipelines
 import (
 	"context"
 
-	"git.front.kjuulh.io/kjuulh/byg"
 	"git.front.kjuulh.io/kjuulh/bust/pkg/builder"
+	"git.front.kjuulh.io/kjuulh/byg"
 	"golang.org/x/sync/errgroup"
 )
 

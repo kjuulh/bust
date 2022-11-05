@@ -10,26 +10,17 @@ import (
 
 	"dagger.io/dagger"
 	"git.front.kjuulh.io/kjuulh/bust/pkg/tasks/container"
-	"git.front.kjuulh.io/kjuulh/bust/pkg/tasks/golang"
-	golangbin "git.front.kjuulh.io/kjuulh/bust/pkg/tasks/golang-bin"
+	rustbin "git.front.kjuulh.io/kjuulh/bust/pkg/tasks/rust-bin"
 	"git.front.kjuulh.io/kjuulh/byg"
 )
 
-type DockerImageOpt struct {
-	ImageName string
-	ImageTag  string
-}
-
-type GolangBinOpts struct {
+type RustBinOpts struct {
 	*DockerImageOpt
-	BuildPath           string
-	BinName             string
-	BaseImage           string
-	ExecuteOnEntrypoint bool
-	CGOEnabled          bool
+	BinName   string
+	BaseImage string
 }
 
-func (p *Pipeline) WithGolangBin(opts *GolangBinOpts) *Pipeline {
+func (p *Pipeline) WithRustBin(opts *RustBinOpts) *Pipeline {
 	log.Printf("building image: %s", opts.ImageName)
 
 	client := p.builder.Dagger
@@ -37,37 +28,24 @@ func (p *Pipeline) WithGolangBin(opts *GolangBinOpts) *Pipeline {
 
 	var (
 		bin        dagger.FileID
-		build      *dagger.Container
 		finalImage *dagger.Container
 	)
 
 	pipeline := byg.
 		New().
 		Step(
-			"build golang",
+			"build rust",
 			byg.Step{
 				Execute: func(_ byg.Context) error {
 					var err error
-					c := container.LoadImage(client, "harbor.server.kjuulh.io/docker-proxy/library/golang")
+					c := container.LoadImage(client, "harbor.server.kjuulh.io/docker-proxy/library/rust")
 					c, err = container.MountCurrent(ctx, client, c, "/src")
 					if err != nil {
 						return err
 					}
 					c = container.Workdir(c, "/src")
 
-					if opts.CGOEnabled {
-						c = c.WithEnvVariable("CGO_ENABLED", "1")
-					} else {
-						c = c.WithEnvVariable("CGO_ENABLED", "0")
-					}
-
-					build, err = golang.Cache(ctx, client, c)
-					if err != nil {
-						return err
-					}
-
-					bin, err = golangbin.Build(ctx, build, opts.BinName, opts.BuildPath)
-					if err != nil {
+					if bin, err = rustbin.Build(ctx, c, opts.BinName); err != nil {
 						return err
 					}
 
@@ -98,20 +76,11 @@ func (p *Pipeline) WithGolangBin(opts *GolangBinOpts) *Pipeline {
 					if err != nil {
 						return err
 					}
-					if opts.ExecuteOnEntrypoint {
-						finalImage = c.WithEntrypoint([]string{usrbin})
-					} else {
-						finalImage = c
-					}
+					finalImage = c
 
 					return nil
 				},
 			},
-			//byg.Step{
-			//	Execute: func(_ byg.Context) error {
-			//		return golang.Test(ctx, build)
-			//	},
-			//},
 		).
 		Step(
 			"upload-image",
