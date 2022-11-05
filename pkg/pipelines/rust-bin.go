@@ -38,7 +38,16 @@ func (p *Pipeline) WithRustBin(opts *RustBinOpts) *Pipeline {
 			byg.Step{
 				Execute: func(_ byg.Context) error {
 					var err error
-					c := container.LoadImage(client, "harbor.server.kjuulh.io/docker-proxy/library/rust")
+					c := container.LoadImage(client, "harbor.server.kjuulh.io/docker-proxy/library/rust:buster")
+					c = c.Exec(dagger.ContainerExecOpts{
+						Args: []string{
+							"apt install musl-tools",
+						},
+					})
+					if _, err := c.ExitCode(ctx); err != nil {
+						return err
+					}
+
 					c, err = container.MountCurrent(ctx, client, c, "/src")
 					if err != nil {
 						return err
