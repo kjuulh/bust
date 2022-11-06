@@ -22,7 +22,7 @@ func Build(ctx context.Context, container *dagger.Container, binName string) (da
 		return "", err
 	}
 
-	bin, err := c.File(fmt.Sprintf("target/release/%s", binName)).ID(ctx)
+	bin, err := c.File(fmt.Sprintf("target/x86_64-unknown-linux-musl/release/%s", binName)).ID(ctx)
 	if err != nil {
 		return "", err
 	}
