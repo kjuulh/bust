@@ -2,4 +2,4 @@ kind: template
 load: bust_rustbin_default_template.yaml
 name: [[.Name]]
 data:
-  bin_name: default
+  binName: default
