@@ -4,7 +4,7 @@ name: "drone-dagger-test"
 
 steps:
   - name: "build"
-    image: harbor.server.kjuulh.io/kjuulh/bust:166769342945
+    image: harbor.server.kjuulh.io/kjuulh/bust:1667693429450
     volumes:
       - name: dockersock
         path: /var/run
