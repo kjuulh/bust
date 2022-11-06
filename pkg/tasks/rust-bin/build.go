@@ -12,18 +12,6 @@ func Build(ctx context.Context, container *dagger.Container, binName string) (da
 	log.Printf("building binary: (binName=%s)", binName)
 	c := container.Exec(dagger.ContainerExecOpts{
 		Args: []string{
-			"rustup",
-			"target",
-			"add",
-			"x86_64-unknown-linux-musl",
-		},
-	})
-	if _, err := c.ExitCode(ctx); err != nil {
-		return "", err
-	}
-
-	c = c.Exec(dagger.ContainerExecOpts{
-		Args: []string{
 			"cargo",
 			"build",
 			"--release",

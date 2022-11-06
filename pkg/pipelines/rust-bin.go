@@ -41,7 +41,27 @@ func (p *Pipeline) WithRustBin(opts *RustBinOpts) *Pipeline {
 					c := container.LoadImage(client, "harbor.server.kjuulh.io/docker-proxy/library/rust:buster")
 					c = c.Exec(dagger.ContainerExecOpts{
 						Args: []string{
-							"apt install musl-tools",
+							"apt", "update", "-y",
+						},
+					})
+					if _, err := c.ExitCode(ctx); err != nil {
+						return err
+					}
+					c = c.Exec(dagger.ContainerExecOpts{
+						Args: []string{
+							"apt", "install", "musl-tools", "-y",
+						},
+					})
+					if _, err := c.ExitCode(ctx); err != nil {
+						return err
+					}
+
+					c = c.Exec(dagger.ContainerExecOpts{
+						Args: []string{
+							"rustup",
+							"target",
+							"add",
+							"x86_64-unknown-linux-musl",
 						},
 					})
 					if _, err := c.ExitCode(ctx); err != nil {
