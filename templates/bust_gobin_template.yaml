@@ -4,13 +4,13 @@ name: "drone-dagger-test"
 
 steps:
   - name: "build"
-    image: harbor.server.kjuulh.io/docker-proxy/library/docker:dind
+    image: harbor.front.kjuulh.io/docker-proxy/library/docker:dind
     volumes:
       - name: dockersock
         path: /var/run
     environment:
       DOCKER_BUILDKIT: 1
-      HARBOR_DOCKER_HOST: "harbor.server.kjuulh.io"
+      HARBOR_DOCKER_HOST: "harbor.front.kjuulh.io"
       HARBOR_DOCKER_USERNAME:
         from_secret: "harbor_docker_username"
       HARBOR_DOCKER_PASSWORD:
@@ -26,8 +26,8 @@ steps:
         --username="$${HARBOR_DOCKER_USERNAME}"
         "$${HARBOR_DOCKER_HOST}"
       - >
-        docker pull harbor.server.kjuulh.io/kjuulh/bust-builder:${DRONE_COMMIT} || 
-        (docker build -t harbor.server.kjuulh.io/kjuulh/bust-builder:${DRONE_COMMIT} -f tmp/bust/Dockerfile . && docker push harbor.server.kjuulh.io/kjuulh/bust-builder:${DRONE_COMMIT})
+        docker pull harbor.front.kjuulh.io/kjuulh/bust-builder:${DRONE_COMMIT} || 
+        (docker build -t harbor.front.kjuulh.io/kjuulh/bust-builder:${DRONE_COMMIT} -f tmp/bust/Dockerfile . && docker push harbor.front.kjuulh.io/kjuulh/bust-builder:${DRONE_COMMIT})
       - >
         docker run
         -e DRONE_REPO_NAME="${DRONE_REPO_NAME}"
@@ -36,7 +36,7 @@ steps:
         -e HARBOR_DOCKER_PASSWORD=$${HARBOR_DOCKER_PASSWORD}
         -v "$PWD/:/src/"
         -v /var/run/docker.sock:/var/run/docker.sock
-        harbor.server.kjuulh.io/kjuulh/bust-builder:${DRONE_COMMIT}
+        harbor.front.kjuulh.io/kjuulh/bust-builder:${DRONE_COMMIT}
         sh -c 'echo "$$HARBOR_DOCKER_PASSWORD" |  docker login
         --password-stdin
         --username="$$HARBOR_DOCKER_USERNAME"

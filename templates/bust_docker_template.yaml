@@ -4,13 +4,13 @@ name: "drone-dagger-test"
 
 steps:
   - name: "build"
-    image: harbor.server.kjuulh.io/kjuulh/bust:1667250488156
+    image: harbor.front.kjuulh.io/kjuulh/bust:1667250488156
     volumes:
       - name: dockersock
         path: /var/run
     environment:
       DOCKER_BUILDKIT: 1
-      HARBOR_DOCKER_HOST: "harbor.server.kjuulh.io"
+      HARBOR_DOCKER_HOST: "harbor.front.kjuulh.io"
       HARBOR_DOCKER_USERNAME:
         from_secret: "harbor_docker_username"
       HARBOR_DOCKER_PASSWORD:

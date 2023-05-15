@@ -26,7 +26,7 @@ func main() {
 				},
 				BuildPath:  "main.go",
 				BinName:    "bust",
-				BaseImage:  "harbor.server.kjuulh.io/docker-proxy/library/docker:dind",
+				BaseImage:  "harbor.front.kjuulh.io/docker-proxy/library/docker:dind",
 				CGOEnabled: true,
 			}).
 			Execute(ctx)

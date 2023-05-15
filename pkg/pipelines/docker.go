@@ -56,7 +56,7 @@ func (p *Pipeline) WithDocker(opts *DockerOpt) *Pipeline {
 						opts.ImageTag = strconv.FormatInt(time.Now().UTC().UnixMilli(), 10)
 					}
 
-					tag := fmt.Sprintf("harbor.server.kjuulh.io/kjuulh/%s:%s", opts.ImageName, opts.ImageTag)
+					tag := fmt.Sprintf("harbor.front.kjuulh.io/kjuulh/%s:%s", opts.ImageName, opts.ImageTag)
 
 					_, err := finalImage.Publish(ctx, tag)
 					return err
