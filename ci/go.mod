@@ -2,7 +2,7 @@ module ci
 
 go 1.19
 
-require git.front.kjuulh.io/kjuulh/bust v0.0.32
+require git.front.kjuulh.io/kjuulh/bust v0.0.33
 
 require (
 	dagger.io/dagger v0.3.1 // indirect
@@ -77,4 +77,4 @@ require (
 	google.golang.org/protobuf v1.28.1 // indirect
 )
 
-replace github.com/docker/docker => github.com/docker/docker v20.10.3-0.20220414164044-61404de7df1a+incompatible
+replace github.com/docker/docker/v24 => github.com/docker/docker v24.0.5
