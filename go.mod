@@ -5,8 +5,8 @@ go 1.19
 require (
 	dagger.io/dagger v0.3.1
 	git.front.kjuulh.io/kjuulh/byg v0.0.7
-	github.com/spf13/cobra v1.6.1
-	golang.org/x/sync v0.1.0
+	github.com/spf13/cobra v1.8.0
+	golang.org/x/sync v0.6.0
 )
 
 require (
@@ -78,4 +78,4 @@ require (
 	google.golang.org/protobuf v1.28.1 // indirect
 )
 
-replace github.com/docker/docker => github.com/docker/docker v20.10.3-0.20220414164044-61404de7df1a+incompatible
+replace github.com/docker/docker/v26 => github.com/docker/docker v26.0.0
