@@ -3,10 +3,10 @@ module git.front.kjuulh.io/kjuulh/bust
 go 1.19
 
 require (
-	dagger.io/dagger v0.3.1
+	dagger.io/dagger v0.21.9
 	git.front.kjuulh.io/kjuulh/byg v0.0.7
-	github.com/spf13/cobra v1.6.1
-	golang.org/x/sync v0.1.0
+	github.com/spf13/cobra v1.10.2
+	golang.org/x/sync v0.23.0
 )
 
 require (
