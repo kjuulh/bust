@@ -2,7 +2,7 @@ module ci
 
 go 1.19
 
-require git.front.kjuulh.io/kjuulh/bust v0.0.32
+require git.front.kjuulh.io/kjuulh/bust v0.0.33
 
 require (
 	dagger.io/dagger v0.3.1 // indirect
